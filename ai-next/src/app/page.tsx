@@ -1,14 +1,13 @@
 'use client';
 
-// Import necessary types from React.
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Import worker type definition.
 interface WorkerType extends Worker {
   postMessage(message: { text: string }): void;
 }
 
-export default function Home(): JSX.Element {
+export default function App() {
   // Keep track of the classification result and the model loading status.
   const [result, setResult] = useState<any | null>(null);
   const [ready, setReady] = useState<boolean | null>(null);
@@ -19,7 +18,6 @@ export default function Home(): JSX.Element {
   // We use the `useEffect` hook to set up the worker as soon as the `App` component is mounted.
   useEffect(() => {
     if (!worker.current && typeof window !== 'undefined') {
-      console.log('🚀 ~ import.meta.url:', import.meta.url);
       // Create the worker if it does not yet exist.
       worker.current = new Worker(new URL('../worker.js', import.meta.url), {
         type: 'module',
